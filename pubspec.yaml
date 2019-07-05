@@ -21,8 +21,8 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^0.1.2
-  local_auth: ^0.5.2+3
-  get_it: ^1.0.3+2
+  # local_auth: ^0.5.2+3
+  # get_it: ^1.0.3+2
 
 
 dev_dependencies:
