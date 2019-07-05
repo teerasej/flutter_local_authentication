@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_auth/services/local_authentication_service.dart';
-import 'package:flutter_local_auth/services/service_locator.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:flutter/services.dart';
 
 void main() {
-  setupLocator();
   runApp(MyApp());
 }
 
@@ -11,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Nextflow Try Auth',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -26,7 +25,22 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final LocalAuthenticationService _localAuth = locator<LocalAuthenticationService>();
+
+  final _auth = LocalAuthentication();
+
+  bool isAuthenticated = false;
+
+  Future<void> authenticate() async {
+    try {
+      isAuthenticated = await _auth.authenticateWithBiometrics(
+        localizedReason: 'authenticate to access',
+        useErrorDialogs: true,
+        stickyAuth: true,
+      );
+    } on PlatformException catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +48,13 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Image.asset('assets/dancamdev.png'),
         ),
-        title: Text('Local Authentication'),
+        title: Text('Nextflow Local Authentication'),
       ),
       body: Center(
         child: RaisedButton(
-          child: Text('authenticate'),
-          onPressed: _localAuth.authenticate,
+          child: Text('แสกน'),
+          onPressed: this.authenticate,
         ),
       ),
     );
